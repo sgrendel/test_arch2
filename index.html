@@ -82,21 +82,26 @@
 }
 
     /* Вопросы */
-    .question {
-        position: relative;
-        margin-top: 20px; /* Отступ между вопросами */
-        padding-top: 10px;
-    }
+ .question {
+    position: relative;
+    padding-top: 0; /* Убираем внутренний отступ сверху */
+}
 
-    .question:not(:first-child)::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 5%; /* Отступ от левого края */
-        width: 90%; /* Линия занимает 90% ширины контейнера */
-        height: 1px; /* Толщина линии */
-        background-color: #ddd; /* Цвет линии */
-    }
+.question:not(:first-child) {
+    margin-top: 10px; /* Отступ только между вопросами */
+    padding-top: 5px; /* Можно добавить, если требуется */
+}
+
+.question:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%; /* Отступ от левого края */
+    width: 90%; /* Линия занимает 90% ширины контейнера */
+    height: 1px; /* Толщина линии */
+    background-color: #ddd; /* Цвет линии */
+}
+
 
     .question > div:first-child {
         font-size: 1.2rem; /* Размер текста вопросов */
