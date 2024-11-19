@@ -59,9 +59,14 @@
         transition: border-color 0.3s ease;
     }
 
-    .option div {
-        font-size: 1.5rem; /* Смайлик уменьшен */
-    }
+.option div {
+    font-size: 1.5rem;
+    filter: grayscale(100%); /* Делаем смайлики черно-белыми */
+    transition: filter 0.3s ease; /* Плавный переход между черно-белым и цветным */
+}
+
+
+
 
     .option span {
         font-size: 0.8rem; /* Подпись смайлика не меняется */
@@ -71,6 +76,11 @@
         border-color: #FFA6B8; /* Цвет выделения */
     }
 
+.option.selected div {
+    filter: none; /* Убираем черно-белый фильтр для выбранного варианта */
+}
+
+    
     /* Кнопки */
     .buttons {
         display: flex;
