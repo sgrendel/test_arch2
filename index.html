@@ -5,162 +5,208 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест на определение Архетипа</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-    /* Общий стиль */
-    body {
-        font-family: 'Raleway', sans-serif;
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    /* Карточка теста */
-    .test-card {
-        background: #fff;
-        border-radius: 20px;
-        padding: 40px;
-        width: 100%; /* Полная ширина */
-        max-width: 900px; /* Широкая карточка */
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        text-align: center;
-        z-index: 1000;
-        position: relative; /* Перекрывает вводный текст */
-    }
-
-    /* Вопросы */
-    .question > div:first-child {
-        font-size: 1.2rem; /* Увеличенный размер текста вопроса */
-        font-weight: 700;
-        margin-bottom: 10px;
-    }
-
-    /* Варианты ответа */
-    .options {
-        display: flex;
-        justify-content: space-evenly; /* Равномерное распределение */
-        gap: 10px; /* Минимальное расстояние между вариантами */
-        flex-wrap: wrap; /* Перенос на новую строку на узких экранах */
-    }
-
-    .option {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        margin: 5px;
-        padding: 10px;
-        border: 2px solid transparent;
-        border-radius: 10px;
-        transition: border-color 0.3s ease;
-    }
-
-    .option div {
-        font-size: 1.5rem; /* Размер смайлика */
-        filter: grayscale(100%); /* Черно-белые смайлики */
-        transition: filter 0.3s ease; /* Плавный переход между черно-белым и цветным */
-    }
-
-    .option span {
-        font-size: 0.8rem; /* Подпись смайлика не меняется */
-    }
-
-    .option.selected div {
-        filter: none; /* Цветной смайлик для выбранного варианта */
-    }
-
-    .option.selected {
-        border-color: #FFA6B8; /* Цвет выделения */
-    }
-
-    /* Кнопки */
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .button {
-        background-color: #FFB6C1;
-        color: #fff;
-        font-size: 1rem;
-        font-weight: 700;
-        padding: 10px 20px;
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-    }
-
-    .button:hover:not(:disabled) {
-        background-color: #FFA6B8;
-    }
-
-    /* Счётчик страниц */
-    .page-counter {
-        font-size: 1rem;
-        color: #666;
-        margin-top: 10px;
-        text-align: center;
-        flex: 1; /* Для выравнивания в линии с кнопками */
-    }
-
-    /* Адаптация для мобильных */
-    @media (max-width: 768px) {
-        .test-card {
-            padding: 20px; /* Уменьшаем отступы на мобильных */
-        }
-
-        .buttons {
-            flex-direction: column; /* Кнопки и счётчик в колонку */
+    <style>
+        /* Общий стиль */
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        .page-counter {
-            order: 1; /* Счётчик переносится под кнопки */
-            width: 100%; /* На всю ширину */
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .intro, .test-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 1rem;
+            width: 90%;
+            max-width: 650px;
+        }
+
+        .start-btn {
+            display: inline-block;
+            background-color: #FFB6C1;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .start-btn:hover {
+            background-color: #FFA6B8;
+        }
+
+        /* Модальная карточка */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none; /* Скрыто до нажатия кнопки */
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .test-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+        }
+
+        /* Вопросы */
+        .question > div:first-child {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
         }
 
         .options {
-            justify-content: center; /* Смайлики центрируются */
+            display: flex;
+            justify-content: space-evenly;
+            gap: 10px;
+            flex-wrap: wrap;
         }
-    }
-</style>
 
-    
+        .option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            margin: 5px;
+            padding: 10px;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            transition: border-color 0.3s ease, filter 0.3s ease;
+        }
+
+        .option div {
+            font-size: 1.5rem;
+            filter: grayscale(100%);
+        }
+
+        .option.selected div {
+            filter: none;
+        }
+
+        .option span {
+            font-size: 0.8rem;
+        }
+
+        .option.selected {
+            border-color: #FFA6B8;
+        }
+
+        /* Кнопки */
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            background-color: #FFB6C1;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .button:hover:not(:disabled) {
+            background-color: #FFA6B8;
+        }
+
+        /* Счётчик страниц */
+        .page-counter {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 10px;
+            text-align: center;
+            flex: 1;
+        }
+
+        /* Мобильные устройства */
+        @media (max-width: 768px) {
+            .test-card {
+                padding: 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .page-counter {
+                order: 1;
+                width: 100%;
+            }
+
+            .options {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Определи свой Архетип!</h1>
-    <div class="spacer"></div>
     <div class="intro">
-        <p>Архетипы — это универсальные образы и сценарии, живущие в каждом из нас. Они определяют наши мотивы, выборы и способы взаимодействия с миром. Зная свой архетип, вы сможете понять, что вас вдохновляет, какие цели вас притягивают и как лучше реализовать свой потенциал.</p>
+        <p>Архетипы — это универсальные образы и сценарии, живущие в каждом из нас. Они определяют наши мотивы, выборы и способы взаимодействия с миром. Зная свой архетип, вы сможете понять, что вдохновляет вас и как лучше реализовать свой потенциал.</p>
     </div>
     <div class="test-description">
-        <p>Тест включает в себя 48 вопросов, рекомендую отвечать на них быстро и интуитивно. Готовы? Тогда начинаем!</p>
+        <p>Наш тест включает 48 вопросов, которые помогут раскрыть ваши глубинные архетипы. Готовы? Начнём прямо сейчас!</p>
     </div>
     <button class="start-btn" onclick="startTest()">Начать тест</button>
 
     <div class="overlay" id="test-overlay">
         <div class="test-card">
-            <div class="page-counter">Страница <span id="page-number">1</span> из 12</div>
             <div id="questions-container"></div>
             <div class="buttons">
                 <button class="button" id="prev-button" disabled>Назад</button>
+                <span class="page-counter">Страница <span id="page-number">1</span> из 12</span>
                 <button class="button" id="next-button" disabled>Далее</button>
                 <button class="button" id="result-button" style="display: none;" disabled>Получить результат</button>
             </div>
         </div>
     </div>
+
+    <script>
+        const startTest = () => {
+            document.getElementById("test-overlay").style.display = "flex";
+            updatePage();
+        };
+
 
     <script>
         const archetypes = [
@@ -274,6 +320,7 @@
 
         const startTest = () => {
             document.getElementById("test-overlay").style.display = "flex";
+            updatePage();
         };
 
  const updatePage = () => {
