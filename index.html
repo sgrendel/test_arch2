@@ -97,28 +97,14 @@
     cursor: pointer;
     margin: 5px;
     padding: 10px;
-    border: 2px solid transparent;
-    border-radius: 10px;
+    border: none; /* Убираем стандартные границы */
+    border-bottom: 1px solid #ddd; /* Разделительная линия между вопросами */
+    width: 90%; /* Опция занимает 90% ширины родителя */
     transition: border-color 0.3s ease, filter 0.3s ease;
 }
 
-.option div {
-    position: relative;
-    display: inline-block; /* Линия ограничена содержимым */
-    text-align: center;
-}
-
-.option div::after {
-    content: '';
-    display: block;
-    width: 110%; /* Ширина содержимого + 10% */
-    height: 1px; /* Толщина линии */
-    background-color: #ddd; /* Цвет линии */
-    margin: 5px auto 0; /* Отступы сверху/снизу */
-}
-
-.option:last-child div::after {
-    content: none; /* Убираем линию у последнего варианта */
+.option:last-child {
+    border-bottom: none; /* Убираем линию у последней опции */
 }
 
 .option div:first-child {
