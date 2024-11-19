@@ -90,34 +90,51 @@
             flex-wrap: wrap;
         }
 
-        .option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            margin: 5px;
-            padding: 10px;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            transition: border-color 0.3s ease, filter 0.3s ease;
-        }
+.option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 5px;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    transition: border-color 0.3s ease, filter 0.3s ease;
+}
 
-        .option div {
-            font-size: 1.5rem;
-            filter: grayscale(100%);
-        }
+.option div {
+    position: relative;
+    display: inline-block; /* Линия ограничена содержимым */
+    text-align: center;
+}
 
-        .option.selected div {
-            filter: none;
-        }
+.option div::after {
+    content: '';
+    display: block;
+    width: 110%; /* Ширина содержимого + 10% */
+    height: 1px; /* Толщина линии */
+    background-color: #ddd; /* Цвет линии */
+    margin: 5px auto 0; /* Отступы сверху/снизу */
+}
 
-        .option span {
-            font-size: 0.8rem;
-        }
+.option:last-child div::after {
+    content: none; /* Убираем линию у последнего варианта */
+}
 
-        .option.selected {
-            border-color: #FFA6B8;
-        }
+.option div:first-child {
+    font-size: 1.5rem; /* Размер смайлика */
+    filter: grayscale(100%); /* Черно-белый эффект для смайликов */
+    transition: filter 0.3s ease; /* Плавный переход на цветной */
+}
+
+.option.selected div:first-child {
+    filter: none; /* Убираем черно-белый фильтр для выбранного */
+}
+
+.option span {
+    font-size: 0.8rem; /* Размер подписи */
+}
+
 
         /* Кнопки */
         .buttons {
