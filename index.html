@@ -71,12 +71,15 @@
         .test-card {
             background: #fff;
             border-radius: 20px;
-            padding: 20px;
-            width: 90%;
-            max-width: 500px;
+            padding: 40px;
+            width: 100%;
+            max-width: 900px; /* Карточка станет шире */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             text-align: center;
+            z-index: 1000;
+            position: relative; /* Убедимся, что карточка перекрывает вводный текст */
         }
+
 
         .page-counter {
             font-size: 1rem;
@@ -285,7 +288,7 @@
             document.getElementById("test-overlay").style.display = "flex";
         };
 
-      const updatePage = () => {
+ const updatePage = () => {
     const start = (currentPage - 1) * questionsPerPage;
     const end = start + questionsPerPage;
     const currentQuestions = shuffledQuestions.slice(start, end);
@@ -303,13 +306,19 @@
         const questionElement = document.createElement("div");
         questionElement.classList.add("question");
 
+        // Генерация вопроса с ответами
         questionElement.innerHTML = `
             <div>${question.text}</div>
             <div class="options">
                 ${answers
+                    .slice() // Создаём копию массива ответов
+                    .reverse() // Меняем порядок на обратный
                     .map(
                         (answer) => `
-                    <div class="option" data-question-id="${questionId}" data-answer="${answer.score}" data-archetype="${question.archetype}">
+                    <div class="option ${selectedAnswers[questionId]?.score === answer.score ? "selected" : ""}" 
+                         data-question-id="${questionId}" 
+                         data-answer="${answer.score}" 
+                         data-archetype="${question.archetype}">
                         <div style="font-size: 2rem;">${answer.emoji}</div>
                         <span>${answer.label}</span>
                     </div>
