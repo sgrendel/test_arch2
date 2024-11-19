@@ -5,151 +5,133 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест на определение Архетипа</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Общий стиль */
-        body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
 
-        h1 {
-            font-size: 2.8rem;
-            margin-top: 20px;
-            text-align: center;
-        }
+<style>
+    /* Общий стиль */
+    body {
+        font-family: 'Raleway', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
 
-        .spacer {
-            height: 1rem;
-        }
+    /* Карточка теста */
+    .test-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 40px;
+        width: 100%; /* Полная ширина */
+        max-width: 900px; /* Широкая карточка */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        z-index: 1000;
+        position: relative; /* Перекрывает вводный текст */
+    }
 
-        .intro, .test-description {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            text-align: justify;
-            margin-bottom: 1rem;
-            width: 90%;
-            max-width: 650px;
-        }
+    /* Вопросы */
+    .question > div:first-child {
+        font-size: 1.2rem; /* Увеличенный размер текста вопроса */
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
 
-        .start-btn {
-            display: inline-block;
-            background-color: #FFB6C1;
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 700;
-            padding: 15px 30px;
-            border-radius: 30px;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    /* Варианты ответа */
+    .options {
+        display: flex;
+        justify-content: space-evenly; /* Равномерное распределение */
+        gap: 10px; /* Минимальное расстояние между вариантами */
+        flex-wrap: wrap; /* Перенос на новую строку на узких экранах */
+    }
 
-        .start-btn:hover {
-            background-color: #FFA6B8;
-        }
+    .option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        margin: 5px;
+        padding: 10px;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        transition: border-color 0.3s ease;
+    }
 
-        /* Модальная карточка */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* Скрыто до нажатия кнопки */
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
+    .option div {
+        font-size: 1.5rem; /* Смайлик уменьшен */
+    }
 
+    .option span {
+        font-size: 0.8rem; /* Подпись смайлика не меняется */
+    }
+
+    .option.selected {
+        border-color: #FFA6B8; /* Цвет выделения */
+    }
+
+    /* Кнопки */
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .button {
+        background-color: #FFB6C1;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .button:hover:not(:disabled) {
+        background-color: #FFA6B8;
+    }
+
+    /* Счётчик страниц */
+    .page-counter {
+        font-size: 1rem;
+        color: #666;
+        margin-top: 10px;
+        text-align: center;
+        flex: 1; /* Для выравнивания в линии с кнопками */
+    }
+
+    /* Адаптация для мобильных */
+    @media (max-width: 768px) {
         .test-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 900px; /* Карточка станет шире */
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            z-index: 1000;
-            position: relative; /* Убедимся, что карточка перекрывает вводный текст */
-        }
-
-
-        .page-counter {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .question {
-            margin: 20px 0;
-        }
-
-        .options {
-            display: flex;
-            justify-content: space-around;
-            margin: 10px 0;
-        }
-
-        .option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            margin: 5px;
-            padding: 10px;
-            border: 2px solid transparent;
-            border-radius: 10px;
-            transition: border-color 0.3s ease;
-        }
-
-        .option img {
-            width: 50px;
-            height: 50px;
-        }
-
-        .option span {
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .option.selected {
-            border-color: #FFA6B8;
+            padding: 20px; /* Уменьшаем отступы на мобильных */
         }
 
         .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            flex-direction: column; /* Кнопки и счётчик в колонку */
+            align-items: center;
         }
 
-        .button {
-            background-color: #FFB6C1;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .page-counter {
+            order: 1; /* Счётчик переносится под кнопки */
+            width: 100%; /* На всю ширину */
         }
 
-        .button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .options {
+            justify-content: center; /* Смайлики центрируются */
         }
+    }
+</style>
 
-        .button:hover:not(:disabled) {
-            background-color: #FFA6B8;
-        }
-    </style>
+    
 </head>
 <body>
     <h1>Определи свой Архетип!</h1>
@@ -319,7 +301,7 @@
                          data-question-id="${questionId}" 
                          data-answer="${answer.score}" 
                          data-archetype="${question.archetype}">
-                        <div style="font-size: 2rem;">${answer.emoji}</div>
+                        <div style="font-size: 1.5rem;">${answer.emoji}</div>
                         <span>${answer.label}</span>
                     </div>
                 `
@@ -356,6 +338,7 @@
     document.getElementById("prev-button").disabled = currentPage === 1;
     document.getElementById("next-button").style.display = currentPage < totalPages ? "inline-block" : "none";
     document.getElementById("result-button").style.display = currentPage === totalPages ? "inline-block" : "none";
+    validatePage();
 };
 
         const validatePage = () => {
