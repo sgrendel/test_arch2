@@ -5,182 +5,200 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Тест на определение Архетипа</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* Общий стиль */
-        body {
-            font-family: 'Raleway', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
-            display: flex;
+
+<style>
+    /* Общий стиль */
+    body {
+        font-family: 'Raleway', sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .intro, .test-description {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        text-align: justify;
+        margin-bottom: 1rem;
+        width: 90%;
+        max-width: 650px;
+    }
+
+    .start-btn {
+        display: inline-block;
+        background-color: #FFB6C1;
+        color: #fff;
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 15px 30px;
+        border-radius: 30px;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+    }
+
+    .start-btn:hover {
+        background-color: #FFA6B8;
+    }
+
+    /* Модальная карточка */
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Скрыто до нажатия кнопки */
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .test-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 40px;
+        width: 100%;
+        max-width: 900px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+    }
+
+    /* Вопросы */
+    .question {
+        position: relative;
+        margin-top: 20px; /* Отступ между вопросами */
+        padding-top: 10px;
+    }
+
+    .question:not(:first-child)::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 5%; /* Отступ от левого края */
+        width: 90%; /* Линия занимает 90% ширины контейнера */
+        height: 1px; /* Толщина линии */
+        background-color: #ddd; /* Цвет линии */
+    }
+
+    .question > div:first-child {
+        font-size: 1.2rem; /* Размер текста вопросов */
+        font-weight: 400; /* Обычный шрифт */
+        margin-bottom: 10px;
+    }
+
+    /* Варианты ответа */
+    .options {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        margin: 5px;
+        padding: 10px;
+        border: none; /* Убираем стандартные границы */
+        border-radius: 10px;
+        transition: border-color 0.3s ease, filter 0.3s ease;
+    }
+
+    .option div:first-child {
+        font-size: 1.5rem; /* Размер смайлика */
+        filter: grayscale(100%); /* Черно-белый эффект для смайликов */
+        transition: filter 0.3s ease; /* Плавный переход на цветной */
+    }
+
+    .option.selected div:first-child {
+        filter: none; /* Убираем черно-белый фильтр для выбранного */
+    }
+
+    .option span {
+        font-size: 0.8rem; /* Размер подписи */
+    }
+
+    .option.selected {
+        border-color: #FFA6B8; /* Цвет рамки для выбранного варианта */
+    }
+
+    /* Кнопки */
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .button {
+        background-color: #FFB6C1;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .button:hover:not(:disabled) {
+        background-color: #FFA6B8;
+    }
+
+    /* Счётчик страниц */
+    .page-counter {
+        font-size: 1rem;
+        color: #666;
+        margin-top: 10px;
+        text-align: center;
+        flex: 1;
+    }
+
+    /* Мобильные устройства */
+    @media (max-width: 768px) {
+        .test-card {
+            padding: 20px;
+        }
+
+        .buttons {
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .intro, .test-description {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            text-align: justify;
-            margin-bottom: 1rem;
-            width: 90%;
-            max-width: 650px;
-        }
-
-        .start-btn {
-            display: inline-block;
-            background-color: #FFB6C1;
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5rem;
-            font-weight: 700;
-            padding: 15px 30px;
-            border-radius: 30px;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 20px;
-        }
-
-        .start-btn:hover {
-            background-color: #FFA6B8;
-        }
-
-        /* Модальная карточка */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .page-counter {
+            order: 1;
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: none; /* Скрыто до нажатия кнопки */
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        .test-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 900px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            position: relative;
-        }
-
-        /* Вопросы */
-        .question > div:first-child {
-            font-size: 1.2rem;
-            font-weight: 400;
-            margin-bottom: 10px;
         }
 
         .options {
-            display: flex;
-            justify-content: space-evenly;
-            gap: 10px;
-            flex-wrap: wrap;
+            justify-content: center;
         }
+    }
+</style>
 
-.option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    cursor: pointer;
-    margin: 5px;
-    padding: 10px;
-    border: none; /* Убираем стандартные границы */
-    border-bottom: 1px solid #ddd; /* Разделительная линия между вопросами */
-    width: 90%; /* Опция занимает 90% ширины родителя */
-    transition: border-color 0.3s ease, filter 0.3s ease;
-}
-
-.option:last-child {
-    border-bottom: none; /* Убираем линию у последней опции */
-}
-
-.option div:first-child {
-    font-size: 1.5rem; /* Размер смайлика */
-    filter: grayscale(100%); /* Черно-белый эффект для смайликов */
-    transition: filter 0.3s ease; /* Плавный переход на цветной */
-}
-
-.option.selected div:first-child {
-    filter: none; /* Убираем черно-белый фильтр для выбранного */
-}
-
-.option span {
-    font-size: 0.8rem; /* Размер подписи */
-}
-
-
-        /* Кнопки */
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .button {
-            background-color: #FFB6C1;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .button:hover:not(:disabled) {
-            background-color: #FFA6B8;
-        }
-
-        /* Счётчик страниц */
-        .page-counter {
-            font-size: 1rem;
-            color: #666;
-            margin-top: 10px;
-            text-align: center;
-            flex: 1;
-        }
-
-        /* Мобильные устройства */
-        @media (max-width: 768px) {
-            .test-card {
-                padding: 20px;
-            }
-
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .page-counter {
-                order: 1;
-                width: 100%;
-            }
-
-            .options {
-                justify-content: center;
-            }
-        }
-    </style>
+    
 </head>
 <body>
    <p></p>
