@@ -3,187 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест на архетипы личности</title>
+    <title>Тест на определение Архетипа</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Общий стиль */
         body {
             font-family: 'Raleway', sans-serif;
-            background-color: #f0f0f0;
             margin: 0;
             padding: 0;
+            background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 15px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-        .question-card {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
-        .question {
-            font-weight: bold;
-            margin: 20px 0;
-        }
-        .answers {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        .answer {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            padding: 15px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .answer:hover {
-            background-color: #f1f1f1;
-        }
-        .emoji {
-            font-size: 1.5rem;
-            margin-right: 10px;
-        }
-        .navigation {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .nav-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 10px;
-            cursor: pointer;
-            width: 45%;
-        }
-        .nav-button:hover {
-            background-color: #0056b3;
-        }
-        .results {
             text-align: center;
-            display: none;
+            color: #333;
+        }
+
+        /* Заголовок */
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Текст */
+        p {
+            font-size: 1.2rem;
+            margin: 0 15px 2rem;
+            line-height: 1.6;
+        }
+
+        /* Кнопка */
+        .start-btn {
+            display: inline-block;
+            background-color: #FFB6C1;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-btn:hover {
+            background-color: #FFA6B8;
+        }
+
+        /* Для мобильных устройств */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .start-btn {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="intro">
-            <h2>Архетипы личности</h2>
-            <p>Архетипы — это универсальные образы и роли, которые помогают понять наши глубинные мотивы, сильные стороны и потенциальные вызовы. Пройдите тест, чтобы узнать, какие архетипы наиболее выражены в вашей личности!</p>
-            <button class="button" id="start-button">Начать тест</button>
-        </div>
-        
-        <div id="question-card" class="question-card">
-            <div id="progress">Вопрос <span id="current-question">1</span> из 12</div>
-            <div class="question" id="question-text">Текст вопроса</div>
-            <div class="answers">
-                <div class="answer" data-value="1"><span class="emoji">😕</span><span>Совсем не согласен</span></div>
-                <div class="answer" data-value="2"><span class="emoji">😐</span><span>Скорее не согласен</span></div>
-                <div class="answer" data-value="3"><span class="emoji">😶</span><span>Нейтрально</span></div>
-                <div class="answer" data-value="4"><span class="emoji">🙂</span><span>Скорее согласен</span></div>
-                <div class="answer" data-value="5"><span class="emoji">😊</span><span>Полностью согласен</span></div>
-            </div>
-            <div class="navigation">
-                <button class="nav-button" id="prev-button" disabled>Назад</button>
-                <button class="nav-button" id="next-button">Вперед</button>
-            </div>
-        </div>
-        
-        <div id="results" class="results">
-            <h2>Ваш архетип</h2>
-            <p id="result-description">Описание вашего архетипа будет здесь.</p>
-        </div>
-    </div>
-    
-    <script>
-        const questions = [
-            "Любите ли вы превращать сложные задачи в простые решения?",
-            "Считаете ли вы важным быть честным и добросердечным в отношениях с другими?",
-            "Вы находите радость в простых, обыденных вещах?",
-            "Вы любите брать на себя ответственность за результат?",
-            "Часто ли вы бросаете вызов установленным правилам?",
-            "Вам нравится быть лидером в группе или проекте?",
-            "Вы любите путешествовать и открывать для себя новые горизонты?",
-            "Вы наслаждаетесь процессом создания чего-то нового?",
-            "Вам нравится заботиться о других и помогать им?",
-            "Вы часто шутите и создаете вокруг себя атмосферу веселья?",
-            "Вы стремитесь к близким и глубоким отношениям с людьми?",
-            "Вы любите размышлять и анализировать происходящее?"
-        ];
-        
-        let currentQuestionIndex = 0;
-        const startButton = document.getElementById("start-button");
-        const questionCard = document.getElementById("question-card");
-        const intro = document.getElementById("intro");
-        const questionText = document.getElementById("question-text");
-        const nextButton = document.getElementById("next-button");
-        const prevButton = document.getElementById("prev-button");
-        const currentQuestion = document.getElementById("current-question");
-        const results = document.getElementById("results");
-        const resultDescription = document.getElementById("result-description");
-
-        startButton.addEventListener("click", () => {
-            intro.style.display = "none";
-            questionCard.style.display = "flex";
-            showQuestion(currentQuestionIndex);
-        });
-
-        nextButton.addEventListener("click", () => {
-            if (currentQuestionIndex < questions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion(currentQuestionIndex);
-            } else {
-                showResults();
-            }
-        });
-
-        prevButton.addEventListener("click", () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                showQuestion(currentQuestionIndex);
-            }
-        });
-
-        function showQuestion(index) {
-            questionText.textContent = questions[index];
-            currentQuestion.textContent = index + 1;
-            prevButton.disabled = index === 0;
-            nextButton.textContent = index === questions.length - 1 ? "Получить результат" : "Вперед";
-        }
-
-        function showResults() {
-            questionCard.style.display = "none";
-            results.style.display = "block";
-            resultDescription.textContent = "Поздравляем! Вы прошли тест. Ваш архетип - Маг: человек, который видит возможности там, где другие видят только преграды.";
-        }
-    </script>
+    <h1>Тест на определение Архетипа</h1>
+    <p>Архетипы – это ключ к пониманию себя и своих жизненных устремлений. Пройдите тест и узнайте, какой архетип определяет ваши цели, мечты и поведение.</p>
+    <p>Простой тест из 48 вопросов поможет вам глубже понять себя. Начните уже сейчас!</p>
+    <a href="test.html" class="start-btn">Начать тест</a>
 </body>
 </html>
