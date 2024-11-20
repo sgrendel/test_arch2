@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Результаты теста</title>
+    <title>Результат теста на основной архетип</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -33,21 +33,36 @@
             width: 90%;
             max-width: 650px;
         }
+
+        .additional {
+            margin-top: 20px;
+            font-size: 1rem;
+            font-style: italic;
+            color: #555; /* Немного светлее основного текста */
+        }
     </style>
 </head>
 <body>
-    <h1 id="result-archetype">Ваш архетип</h1>
-    <p id="result-description">Описание архетипа будет здесь.</p>
+    <h1>Ваш основной архетип:</h1>
+    <p id="result-archetype">Название архетипа</p>
+    <p class="additional" id="additional-archetypes" style="display: none;"></p>
 
     <script>
-        // Получаем данные из localStorage
+        // Получаем данные из URL
         const params = new URLSearchParams(window.location.search);
         const archetype = params.get("archetype");
-        const description = params.get("description");
+        const additional = params.get("additional") ? params.get("additional").split(',') : [];
 
-        // Обновляем страницу
-        document.getElementById("result-archetype").innerText = archetype || "Неизвестный архетип";
-        document.getElementById("result-description").innerText = description || "Описание недоступно.";
+        // Обновляем основной архетип
+        document.getElementById("result-archetype").innerText = archetype;
+
+        // Обновляем дополнительные архетипы, если они есть
+        if (additional.length > 0) {
+            const additionalText = `Дополнительные архетипы: ${additional.join(', ')}`;
+            const additionalElement = document.getElementById("additional-archetypes");
+            additionalElement.innerText = additionalText;
+            additionalElement.style.display = "block";
+        }
     </script>
 </body>
 </html>
