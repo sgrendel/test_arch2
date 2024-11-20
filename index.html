@@ -196,9 +196,17 @@
         padding: 20px; /* Уменьшаем отступы внутри карточки */
     }
 
+       .buttons {
+        flex-wrap: nowrap; /* На маленьких экранах кнопки остаются на одной строке */
+    }
+
+    .buttons .button {
+        flex: none; /* Кнопки занимают только свою ширину */
+        width: auto; /* Автоматическая ширина */
+    }
+
     .buttons {
-        flex-direction: column; /* Кнопки располагаются вертикально */
-        align-items: center;
+        justify-content: space-around; /* Увеличиваем расстояние между кнопками */
     }
 
     .page-counter {
@@ -225,6 +233,18 @@
     }
 }
 
+
+    @media (max-width: 480px) {
+    .buttons {
+        flex-direction: column; /* На очень маленьких экранах кнопки становятся вертикально */
+        align-items: center; /* Центрируем кнопки */
+        gap: 10px; /* Отступы между кнопками */
+    }
+
+    .page-counter {
+        order: 1; /* Перемещаем счётчик выше кнопок */
+    }
+}
 </style>
 
     
