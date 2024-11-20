@@ -355,6 +355,7 @@ const startTest = () => {
     updatePage();
 };
 
+   
 const updatePage = () => {
     const start = (currentPage - 1) * questionsPerPage;
     const end = start + questionsPerPage;
@@ -377,19 +378,24 @@ const updatePage = () => {
         questionElement.innerHTML = `
             <div>${question.text}</div>
             <div class="options">
-                ${answers
-                    .map(
-                        (answer) => `
-                    <div class="option ${selectedAnswers[questionId]?.score === answer.score ? "selected" : ""}" 
-                         data-question-id="${questionId}" 
-                         data-answer="${answer.score}" 
-                         data-archetype="${question.archetype}">
-                        <div style="font-size: 1.5rem;">${answer.emoji}</div>
-                        <span>${answer.label}</span>
-                    </div>
-                `
-                    )
-                    .join("")}
+                ${
+                    answers
+    .slice() // Создаём копию массива
+    .sort((a, b) => a.score - b.score) // Сортируем от меньшего к большему
+    .map(
+        (answer) => `
+            <div class="option ${selectedAnswers[questionId]?.score === answer.score ? "selected" : ""}" 
+                 data-question-id="${questionId}" 
+                 data-answer="${answer.score}" 
+                 data-archetype="${question.archetype}">
+                <div style="font-size: 1.5rem;">${answer.emoji}</div>
+                <span>${answer.label}</span>
+            </div>
+        `
+    )
+    .join("")
+
+                }
             </div>
         `;
 
@@ -452,13 +458,31 @@ const calculateResults = () => {
         archetypeScores[answer.archetype] += answer.score;
     }
 
-    // Определяем доминирующий архетип
-    const dominantArchetype = Object.entries(archetypeScores).reduce((max, current) => {
-        return current[1] > max[1] ? current : max;
-    });
+    // Находим максимальное количество баллов
+    const maxScore = Math.max(...Object.values(archetypeScores));
 
-    alert(`Ваш основной архетип: ${dominantArchetype[0]} (${dominantArchetype[1]} баллов).`);
+    // Список архетипов с максимальными баллами
+    const topArchetypes = Object.entries(archetypeScores)
+        .filter(([_, score]) => score === maxScore)
+        .map(([archetype]) => archetype);
+
+    // Выбираем случайный основной архетип
+    const primaryArchetype = topArchetypes[Math.floor(Math.random() * topArchetypes.length)];
+
+    // Дополнительные архетипы — все кроме основного
+    const additionalArchetypes = topArchetypes.filter((archetype) => archetype !== primaryArchetype);
+
+    // Определяем текст для дополнительных архетипов
+    let additionalText = '';
+    if (additionalArchetypes.length > 0) {
+        const label = additionalArchetypes.length === 1 ? 'дополнительный' : 'дополнительные';
+        additionalText = `, а ${label}: ${additionalArchetypes.join(', ')}`;
+    }
+
+    // Вывод результата
+    alert(`Ваш основной архетип: ${primaryArchetype}${additionalText} (${maxScore} баллов).`);
 };
+
 
 // Навигация по страницам
 document.getElementById("prev-button").addEventListener("click", () => {
