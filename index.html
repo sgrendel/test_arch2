@@ -155,22 +155,20 @@
   
     /* Кнопки */
   
-    .buttons-container {
+  .buttons-container {
     display: flex;
-    justify-content: space-between; /* Кнопки и счётчик на одной строке */
+    justify-content: space-between; /* Элементы равномерно распределяются */
     align-items: center; /* Центрируем элементы вертикально */
+    width: 100%; /* Контейнер кнопок занимает всю ширину */
     gap: 10px; /* Расстояние между элементами */
-    width: 100%; /* Контейнер кнопок и счётчика занимает всю ширину */
 }
 
-    
-    
-    .buttons {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-    }
+   .page-counter {
+    flex: 0 1 auto; /* Ограничиваем растяжение счётчика */
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+}
 
     .button {
         background-color: #FFB6C1;
@@ -182,6 +180,9 @@
         border: none;
         cursor: pointer;
         transition: background-color 0.3s ease;
+        flex: 0 1 auto; /* Ограничиваем растяжение кнопок */
+        max-width: 150px; /* Максимальная ширина кнопок */
+        text-align: center;
     }
 
     .button:disabled {
@@ -193,16 +194,9 @@
         background-color: #FFA6B8;
     }
 
-    /* Счётчик страниц */
-    .page-counter {
-        font-size: 1rem;
-        color: #666;
-        margin-top: 10px;
-        text-align: center;
-        flex: 1;
-    }
+ 
     
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .test-card {
         padding: 20px; /* Уменьшаем отступы внутри карточки */
     }
@@ -266,16 +260,13 @@
    <div class="overlay" id="test-overlay">
     <div class="test-card">
         <div id="questions-container"></div>
-        <div class="buttons-container">
-            <div class="buttons">
-                <button class="button" id="prev-button" disabled>Назад</button>
-                <button class="button" id="next-button" disabled>Далее</button>
-                <button class="button" id="result-button" style="display: none;" disabled>Получить результат</button>
-            </div>
-            <div class="page-counter">
-                Страница <span id="page-number">1</span> из 12
-            </div>
-        </div>
+       <div class="buttons-container">
+            <button class="button" id="prev-button" disabled>Назад</button>
+            <span class="page-counter">Страница <span id="page-number">1</span> из 12</span>
+            <button class="button" id="next-button" disabled>Далее</button>
+            <button class="button" id="result-button" style="display: none;" disabled>Получить результат</button>
+</div>
+
     </div>
 </div>
 
