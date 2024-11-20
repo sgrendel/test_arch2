@@ -155,21 +155,29 @@
   
     /* Кнопки */
   
-  .buttons-container {
+.buttons-container {
     display: flex;
-    justify-content: space-between; /* Элементы равномерно распределяются */
-    align-items: center; /* Центрируем элементы вертикально */
-    width: 100%; /* Контейнер кнопок занимает всю ширину */
-    gap: 10px; /* Расстояние между элементами */
+    flex-direction: column; /* Элементы располагаются вертикально */
+    align-items: center; /* Центрируем кнопки и счётчик */
+    gap: 10px; /* Расстояние между кнопками и счётчиком */
+    width: 100%;
 }
 
-   .page-counter {
-    flex: 0 1 auto; /* Ограничиваем растяжение счётчика */
-    text-align: center;
+.buttons {
+    display: flex;
+    justify-content: space-evenly; /* Кнопки равномерно распределяются */
+    gap: 10px; /* Расстояние между кнопками */
+    width: 100%; /* Кнопки занимают всю ширину контейнера */
+    max-width: 400px; /* Ограничиваем максимальную ширину блока кнопок */
+}
+
+.page-counter {
+    text-align: center; /* Центрируем текст счётчика */
     font-size: 1rem;
     color: #666;
+    width: 100%; /* Счётчик занимает всю ширину */
+    margin-top: 10px; /* Отступ между кнопками и счётчиком */
 }
-
     .button {
         background-color: #FFB6C1;
         color: #fff;
@@ -202,23 +210,18 @@
     }
 
    .buttons-container {
-        flex-direction: column; /* Располагаем кнопки и счётчик вертикально */
-        align-items: center; /* Центрируем всё по горизонтали */
+        flex-direction: column; /* Элементы располагаются вертикально */
     }
 
     .buttons {
-        display: flex;
+        flex-wrap: nowrap; /* Кнопки остаются на одной строке */
         justify-content: space-evenly; /* Кнопки равномерно распределяются */
         width: 80%; /* Кнопки занимают 80% ширины экрана */
-        gap: 10px; /* Отступы между кнопками */
     }
 
     .page-counter {
         margin-top: 15px; /* Отступ между кнопками и счётчиком */
-        width: 100%; /* Счётчик занимает всю ширину */
-        text-align: center; /* Центрируем текст счётчика */
     }
-}
     .options {
         justify-content: center; /* Центрируем варианты */
         gap: 5px; /* Уменьшаем расстояние между вариантами */
