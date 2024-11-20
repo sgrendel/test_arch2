@@ -154,6 +154,16 @@
 
   
     /* Кнопки */
+    .buttons-container {
+    display: flex;
+    justify-content: space-between; /* Кнопки и счётчик на одной строке */
+    align-items: center; /* Центрируем элементы вертикально */
+    gap: 10px; /* Расстояние между элементами */
+    width: 100%; /* Контейнер кнопок и счётчика занимает всю ширину */
+}
+
+    
+    
     .buttons {
         display: flex;
         justify-content: space-between;
@@ -196,29 +206,22 @@
         padding: 20px; /* Уменьшаем отступы внутри карточки */
     }
 
- .buttons {
-        display: flex;
-        justify-content: space-between; /* Кнопки равномерно распределяются */
-        align-items: center;
-        gap: 10px; /* Отступы между кнопками */
-        width: 80%; /* Контейнер кнопок занимает 80% ширины */
-        margin: 0 auto; /* Центрируем кнопки по горизонтали */
+   .buttons-container {
+        flex-direction: column; /* Располагаем кнопки и счётчик вертикально */
+        align-items: center; /* Центрируем всё по горизонтали */
     }
 
-    .button {
-        flex: 1; /* Кнопки растягиваются равномерно */
-        text-align: center; /* Текст кнопок по центру */
-        padding: 8px; /* Компактные внутренние отступы */
-        font-size: clamp(0.9rem, 3vw, 1.2rem); /* Адаптивный размер шрифта */
-        max-width: 140px; /* Ограничение максимальной ширины кнопки */
-        border-radius: 20px; /* Скругленные края */
+    .buttons {
+        display: flex;
+        justify-content: space-evenly; /* Кнопки равномерно распределяются */
+        width: 80%; /* Кнопки занимают 80% ширины экрана */
+        gap: 10px; /* Отступы между кнопками */
     }
 
     .page-counter {
         margin-top: 15px; /* Отступ между кнопками и счётчиком */
-        text-align: center; /* Счётчик по центру */
         width: 100%; /* Счётчик занимает всю ширину */
-        font-size: 1rem; /* Размер шрифта для счётчика */
+        text-align: center; /* Центрируем текст счётчика */
     }
 }
     .options {
@@ -259,17 +262,22 @@
     <button class="start-btn" onclick="startTest()">Начать тест</button>
 
     
-    <div class="overlay" id="test-overlay">
-        <div class="test-card">
-            <div id="questions-container"></div>
+   <div class="overlay" id="test-overlay">
+    <div class="test-card">
+        <div id="questions-container"></div>
+        <div class="buttons-container">
             <div class="buttons">
                 <button class="button" id="prev-button" disabled>Назад</button>
-                <span class="page-counter">Страница <span id="page-number">1</span> из 12</span>
                 <button class="button" id="next-button" disabled>Далее</button>
                 <button class="button" id="result-button" style="display: none;" disabled>Получить результат</button>
             </div>
+            <div class="page-counter">
+                Страница <span id="page-number">1</span> из 12
+            </div>
         </div>
     </div>
+</div>
+
 
     <script>
         const archetypes = [
