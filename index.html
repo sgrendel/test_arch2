@@ -215,6 +215,8 @@
 
     
 </head>
+
+    
 <body>
    <p></p>
     <h1>Определи свой Архетип!</h1>
@@ -336,24 +338,24 @@
             { emoji: "😡", label: "Не я", score: -2 },
         ];
 
-        const totalPages = 12;
-        const questionsPerPage = 4;
+    const totalPages = 12;
+const questionsPerPage = 4;
 
-        let currentPage = 1;
-        let selectedAnswers = {};
-        let archetypeScores = archetypes.reduce((acc, archetype) => {
-            acc[archetype] = 0;
-            return acc;
-        }, {});
+let currentPage = 1;
+let selectedAnswers = {};
+let archetypeScores = archetypes.reduce((acc, archetype) => {
+    acc[archetype] = 0;
+    return acc;
+}, {});
 
-        const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
+const shuffledQuestions = questions.sort(() => Math.random() - 0.5);
 
-        const startTest = () => {
-            document.getElementById("test-overlay").style.display = "flex";
-            updatePage();
-        };
+const startTest = () => {
+    document.getElementById("test-overlay").style.display = "flex";
+    updatePage();
+};
 
- const updatePage = () => {
+const updatePage = () => {
     const start = (currentPage - 1) * questionsPerPage;
     const end = start + questionsPerPage;
     const currentQuestions = shuffledQuestions.slice(start, end);
@@ -376,8 +378,6 @@
             <div>${question.text}</div>
             <div class="options">
                 ${answers
-                    .slice() // Создаём копию массива ответов
-                    .reverse() // Меняем порядок на обратный
                     .map(
                         (answer) => `
                     <div class="option ${selectedAnswers[questionId]?.score === answer.score ? "selected" : ""}" 
@@ -403,14 +403,16 @@
             const archetype = option.dataset.archetype;
             const score = parseInt(option.dataset.answer);
 
-            // Снимаем выделение со всех вариантов для текущего вопроса
+            // Обновляем выбранный ответ для текущего вопроса
+            selectedAnswers[questionId] = { archetype, score };
+
+            // Снимаем выделение со всех вариантов текущего вопроса
             document
                 .querySelectorAll(`[data-question-id="${questionId}"]`)
                 .forEach((opt) => opt.classList.remove("selected"));
 
             // Выделяем выбранный вариант
             option.classList.add("selected");
-            selectedAnswers[questionId] = { archetype, score };
 
             // Проверяем, можно ли активировать кнопку "Далее" или "Получить результат"
             validatePage();
@@ -424,49 +426,60 @@
     validatePage();
 };
 
-        const validatePage = () => {
-            const start = (currentPage - 1) * questionsPerPage;
-            const end = start + questionsPerPage;
-            const allAnswered = Array.from({ length: questionsPerPage }, (_, i) => start + i).every(
-                (id) => selectedAnswers[id] !== undefined
-            );
+const validatePage = () => {
+    const start = (currentPage - 1) * questionsPerPage;
+    const end = start + questionsPerPage;
+    const allAnswered = Array.from({ length: questionsPerPage }, (_, i) => start + i).every(
+        (id) => selectedAnswers[id] !== undefined
+    );
 
-            if (currentPage === totalPages) {
-                document.getElementById("result-button").disabled = !allAnswered;
-            } else {
-                document.getElementById("next-button").disabled = !allAnswered;
-            }
-        };
+    if (currentPage === totalPages) {
+        document.getElementById("result-button").disabled = !allAnswered;
+    } else {
+        document.getElementById("next-button").disabled = !allAnswered;
+    }
+};
 
-        const calculateResults = () => {
-            for (const answer of Object.values(selectedAnswers)) {
-                archetypeScores[answer.archetype] += answer.score;
-            }
+const calculateResults = () => {
+    // Сбрасываем накопленные баллы
+    archetypeScores = archetypes.reduce((acc, archetype) => {
+        acc[archetype] = 0;
+        return acc;
+    }, {});
 
-            const dominantArchetype = Object.entries(archetypeScores).reduce((max, current) => {
-                return current[1] > max[1] ? current : max;
-            });
+    // Суммируем баллы только по текущим выбранным ответам
+    for (const answer of Object.values(selectedAnswers)) {
+        archetypeScores[answer.archetype] += answer.score;
+    }
 
-            alert(`Ваш основной архетип: ${dominantArchetype[0]} (${dominantArchetype[1]} баллов).`);
-        };
+    // Определяем доминирующий архетип
+    const dominantArchetype = Object.entries(archetypeScores).reduce((max, current) => {
+        return current[1] > max[1] ? current : max;
+    });
 
-        document.getElementById("prev-button").addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                updatePage();
-            }
-        });
+    alert(`Ваш основной архетип: ${dominantArchetype[0]} (${dominantArchetype[1]} баллов).`);
+};
 
-        document.getElementById("next-button").addEventListener("click", () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                updatePage();
-            }
-        });
-
-        document.getElementById("result-button").addEventListener("click", calculateResults);
-
+// Навигация по страницам
+document.getElementById("prev-button").addEventListener("click", () => {
+    if (currentPage > 1) {
+        currentPage--;
         updatePage();
+    }
+});
+
+document.getElementById("next-button").addEventListener("click", () => {
+    if (currentPage < totalPages) {
+        currentPage++;
+        updatePage();
+    }
+});
+
+document.getElementById("result-button").addEventListener("click", calculateResults);
+
+// Начальное обновление
+updatePage();
+
     </script>
 </body>
 </html>
