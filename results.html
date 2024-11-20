@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты теста</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Raleway', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(180deg, #FFD1DC, #C3E8FF);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin: 0 auto;
+            width: 90%;
+            max-width: 650px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="result-archetype">Ваш архетип</h1>
+    <p id="result-description">Описание архетипа будет здесь.</p>
+
+    <script>
+        // Получаем данные из localStorage
+        const params = new URLSearchParams(window.location.search);
+        const archetype = params.get("archetype");
+        const description = params.get("description");
+
+        // Обновляем страницу
+        document.getElementById("result-archetype").innerText = archetype || "Неизвестный архетип";
+        document.getElementById("result-description").innerText = description || "Описание недоступно.";
+    </script>
+</body>
+</html>
