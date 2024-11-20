@@ -19,20 +19,23 @@
             color: #333;
         }
 
-        h1 {
+        .main-archetype {
             font-size: 3rem; /* Крупный шрифт для основного архетипа */
+            font-weight: bold;
             margin-top: 50px;
             margin-bottom: 20px;
             color: #2F4F4F; /* Графитовый цвет */
         }
 
-        .additional {
-            font-size: 1.5rem; /* Чуть меньше, чем основной архетип */
-            margin-top: 20px;
+        .additional-archetypes {
+            font-size: 1.8rem; /* Чуть меньше основного архетипа */
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 30px;
             color: #2F4F4F; /* Графитовый цвет */
         }
 
-        p {
+        .description {
             font-size: 1.2rem;
             line-height: 1.8;
             margin: 0 auto;
@@ -42,9 +45,9 @@
     </style>
 </head>
 <body>
-    <h1 id="result-archetype">Название основного архетипа</h1>
-    <p id="result-description">Здесь будет описание основного архетипа.</p>
-    <div class="additional" id="additional-archetypes" style="display: none;"></div>
+    <div class="main-archetype" id="main-archetype">Ваш основной архетип: ХХХХ</div>
+    <div class="additional-archetypes" id="additional-archetypes" style="display: none;"></div>
+    <p class="description" id="archetype-description"></p>
 
     <script>
         // Получаем данные из URL
@@ -53,18 +56,20 @@
         const description = params.get("description");
         const additional = params.get("additional") ? params.get("additional").split(',') : [];
 
-        // Обновляем основной архетип
-        document.getElementById("result-archetype").innerText = archetype;
+        // Основной архетип
+        document.getElementById("main-archetype").innerText = `Ваш основной архетип: ${archetype}`;
 
-        // Обновляем описание архетипа
-        document.getElementById("result-description").innerText = description;
-
-        // Обновляем дополнительные архетипы, если они есть
+        // Дополнительные архетипы, если они есть
         if (additional.length > 0) {
+            const label = additional.length === 1 ? "Ваш дополнительный архетип" : "Ваши дополнительные архетипы";
+            const additionalText = `${label}: ${additional.join(', ')}`;
             const additionalElement = document.getElementById("additional-archetypes");
-            additionalElement.innerText = `Дополнительные архетипы: ${additional.join(', ')}`;
+            additionalElement.innerText = additionalText;
             additionalElement.style.display = "block";
         }
+
+        // Описание архетипа
+        document.getElementById("archetype-description").innerText = description;
     </script>
 </body>
 </html>
