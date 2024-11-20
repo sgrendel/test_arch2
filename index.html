@@ -154,6 +154,7 @@
 
   
     /* Кнопки */
+  
     .buttons-container {
     display: flex;
     justify-content: space-between; /* Кнопки и счётчик на одной строке */
@@ -200,23 +201,6 @@
         text-align: center;
         flex: 1;
     }
-
-/* Для больших экранов */
-@media (min-width: 768px) {
-    .buttons-container {
-        flex-direction: row; /* Элементы на одной строке */
-        justify-content: space-between; /* Пространство между кнопками и счётчиком */
-        align-items: center;
-    }
-
-    .buttons {
-        width: auto; /* Кнопки располагаются компактно */
-    }
-
-    .page-counter {
-        margin-top: 0; /* Убираем отступ сверху */
-    }
-}
     
 @media (max-width: 768px) {
     .test-card {
