@@ -469,18 +469,17 @@ const calculateResults = () => {
     // Выбираем случайный основной архетип
     const primaryArchetype = topArchetypes[Math.floor(Math.random() * topArchetypes.length)];
 
-    // Дополнительные архетипы — все кроме основного
-    const additionalArchetypes = topArchetypes.filter((archetype) => archetype !== primaryArchetype);
+    // Описание архетипов
+    const descriptions = {
+        "Маг": "Маги — это те, кто видит скрытые возможности и стремится воплотить мечты в реальность...",
+        "Славный малый": "Славные малые — это дружелюбные и надёжные люди...",
+        // Добавьте остальные архетипы и описания
+    };
 
-    // Определяем текст для дополнительных архетипов
-    let additionalText = '';
-    if (additionalArchetypes.length > 0) {
-        const label = additionalArchetypes.length === 1 ? 'дополнительный' : 'дополнительные';
-        additionalText = `, а ${label}: ${additionalArchetypes.join(', ')}`;
-    }
+    const description = descriptions[primaryArchetype] || "Описание недоступно.";
 
-    // Вывод результата
-    alert(`Ваш основной архетип: ${primaryArchetype}${additionalText} (${maxScore} баллов).`);
+    // Переход на страницу результатов
+    window.location.href = `results.html?archetype=${encodeURIComponent(primaryArchetype)}&description=${encodeURIComponent(description)}`;
 };
 
 
