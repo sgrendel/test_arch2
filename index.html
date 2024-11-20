@@ -191,26 +191,40 @@
         flex: 1;
     }
 
-    /* Мобильные устройства */
-    @media (max-width: 768px) {
-        .test-card {
-            padding: 20px;
-        }
-
-        .buttons {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .page-counter {
-            order: 1;
-            width: 100%;
-        }
-
-        .options {
-            justify-content: center;
-        }
+@media (max-width: 768px) {
+    .test-card {
+        padding: 20px; /* Уменьшаем отступы внутри карточки */
     }
+
+    .buttons {
+        flex-direction: column; /* Кнопки располагаются вертикально */
+        align-items: center;
+    }
+
+    .page-counter {
+        order: 1; /* Счётчик переносится под кнопки */
+        width: 100%;
+    }
+
+    .options {
+        justify-content: center; /* Центрируем варианты */
+        gap: 5px; /* Уменьшаем расстояние между вариантами */
+    }
+
+    .option {
+        margin: 3px; /* Уменьшаем внешний отступ */
+        padding: 5px; /* Уменьшаем внутренний отступ */
+    }
+
+    .option div:first-child {
+        font-size: clamp(1rem, 4vw, 1.5rem); /* Адаптивный размер смайликов */
+    }
+
+    .option span {
+        font-size: clamp(0.6rem, 2.5vw, 0.8rem); /* Адаптивный размер подписи */
+    }
+}
+
 </style>
 
     
