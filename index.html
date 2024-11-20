@@ -112,24 +112,29 @@
     }
 
     /* Варианты ответа */
-    .options {
-        display: flex;
-        justify-content: space-evenly;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
+  .options {
+    display: flex;
+    justify-content: space-evenly; /* Равномерное распределение */
+    gap: 5px; /* Уменьшенный промежуток между вариантами */
+    flex-wrap: wrap; /* Перенос на новую строку при необходимости */
+}
 
     .option {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        cursor: pointer;
-        margin: 5px;
-        padding: 10px;
-        border: none; /* Убираем стандартные границы */
-        border-radius: 10px;
-        transition: border-color 0.3s ease, filter 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 5px;
+    padding: 10px; /* Пространство внутри рамки */
+    border: 2px solid transparent; /* Изначально рамка прозрачная */
+    border-radius: 10px; /* Скруглённые края */
+    transition: border-color 0.3s ease;
     }
+    
+    .option.selected {
+        border-color: #FFA6B8; /* Розовый цвет рамки */
+    }
+
 
     .option div:first-child {
         font-size: 1.5rem; /* Размер смайлика */
@@ -145,10 +150,7 @@
         font-size: 0.8rem; /* Размер подписи */
     }
 
-    .option.selected {
-        border-color: #FFA6B8; /* Цвет рамки для выбранного варианта */
-    }
-
+  
     /* Кнопки */
     .buttons {
         display: flex;
