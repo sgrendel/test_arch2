@@ -22,7 +22,7 @@
         .main-archetype {
             font-size: 3rem; /* Крупный шрифт для основного архетипа */
             font-weight: bold;
-            margin-top: 50px;
+            margin-top: 15vh; /* Увеличенный отступ сверху */
             margin-bottom: 20px;
             color: #2F4F4F; /* Графитовый цвет */
         }
@@ -39,6 +39,7 @@
             font-size: 1.2rem;
             line-height: 1.8;
             margin: 0 auto;
+            margin-top: 20px;
             width: 90%;
             max-width: 750px; /* Ограничение ширины абзаца */
         }
@@ -59,12 +60,11 @@
         // Основной архетип
         document.getElementById("main-archetype").innerText = `Ваш основной архетип: ${archetype}`;
 
-        // Дополнительные архетипы, если они есть
+        // Дополнительный архетип (только один)
         if (additional.length > 0) {
-            const label = additional.length === 1 ? "Ваш дополнительный архетип" : "Ваши дополнительные архетипы";
-            const additionalText = `${label}: ${additional.join(', ')}`;
+            const additionalArchetype = additional[0]; // Берём только первый
             const additionalElement = document.getElementById("additional-archetypes");
-            additionalElement.innerText = additionalText;
+            additionalElement.innerText = `Ваш дополнительный архетип: ${additionalArchetype}`;
             additionalElement.style.display = "block";
         }
 
