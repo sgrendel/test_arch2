@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат теста на основной архетип</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -17,6 +18,16 @@
             min-height: 100vh;
             text-align: center;
             color: #333;
+        }
+
+        #fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none; /* Чтобы не мешать взаимодействию с элементами */
         }
 
         .main-archetype {
@@ -44,37 +55,69 @@
             max-width: 750px; /* Ограничение ширины абзаца */
         }
 
+        .description a {
+            color: #FF69B4;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .description a:hover {
+            text-decoration: underline;
+        }
+
         @media (max-width: 768px) {
-    .main-archetype {
-        font-size: 2.2rem; /* Уменьшаем шрифт для основного архетипа */
-        margin-top: 10vh; /* Уменьшаем отступ сверху */
-    }
+            .main-archetype {
+                font-size: 2.2rem;
+                margin-top: 10vh;
+            }
 
-    .additional-archetypes {
-        font-size: 1.4rem; /* Уменьшаем шрифт для дополнительных архетипов */
-        margin-top: 10px; /* Сокращаем расстояние сверху */
-        margin-bottom: 20px; /* Сокращаем расстояние снизу */
-    }
+            .additional-archetypes {
+                font-size: 1.4rem;
+                margin-top: 10px;
+                margin-bottom: 20px;
+            }
 
-    .description {
-        font-size: 1rem; /* Уменьшаем размер текста описания */
-        line-height: 1.6; /* Уменьшаем межстрочный интервал */
-        max-width: 90%; /* Расширяем описание на более широкий экран */
-    }
-
-
+            .description {
+                font-size: 1rem;
+                line-height: 1.6;
+                max-width: 90%;
+            }
+        }
     </style>
 </head>
 <body>
+    <div id="fireworks-container"></div>
+
     <div class="main-archetype" id="main-archetype">Ваш основной архетип: ХХХХ</div>
     <div class="additional-archetypes" id="additional-archetypes" style="display: none;"></div>
-    <p class="description" id="archetype-description"></p>
+    <div class="description">
+        <p>Поздравляю! 🥳</p>
+        <p>Ты завершил тест и узнал свой архетип.</p>
+        <p>Чтобы узнать ключевые моменты твоего архетипа и раскрыть свой уникальный стиль, вернись к расшифровке в <a href="https://drive.google.com/file/d/1NGVuEQtf82hCk4XoFUOXL_zBuMqYcFdB/view?usp=drive_link" target="_blank">гайде</a>.</p>
+        <p>Ваш новый стиль ждет вас!</p>
+    </div>
 
     <script>
+        // Инициализация Canvas-анимации фейерверков
+        particlesJS("fireworks-container", {
+            particles: {
+                number: { value: 50 },
+                color: { value: ["#FF0000", "#00FF00", "#0000FF"] },
+                shape: { type: "circle" },
+                opacity: { value: 0.8 },
+                size: { value: 4 },
+                move: { enable: true, speed: 6 },
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: { onclick: { enable: false }, onhover: { enable: false } },
+            },
+            retina_detect: true,
+        });
+
         // Получаем данные из URL
         const params = new URLSearchParams(window.location.search);
         const archetype = params.get("archetype");
-        const description = params.get("description");
         const additional = params.get("additional") ? params.get("additional").split(',') : [];
 
         // Основной архетип
@@ -87,9 +130,6 @@
             additionalElement.innerText = `Ваш дополнительный архетип: ${additionalArchetype}`;
             additionalElement.style.display = "block";
         }
-
-        // Описание архетипа
-        document.getElementById("archetype-description").innerText = description;
     </script>
 </body>
 </html>
