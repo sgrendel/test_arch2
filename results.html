@@ -52,7 +52,7 @@
             margin: 0 auto;
             margin-top: 20px;
             width: 90%;
-            max-width: 650px;
+            max-width: 600px;
         }
 
         .description a {
@@ -63,25 +63,6 @@
 
         .description a:hover {
             text-decoration: underline;
-        }
-
-        @media (max-width: 768px) {
-            .main-archetype {
-                font-size: 2.2rem;
-                margin-top: 10vh;
-            }
-
-            .additional-archetypes {
-                font-size: 1.4rem;
-                margin-top: 10px;
-                margin-bottom: 20px;
-            }
-
-            .description {
-                font-size: 1rem;
-                line-height: 1.6;
-                max-width: 90%;
-            }
         }
     </style>
 </head>
@@ -98,52 +79,29 @@
     </div>
 
     <script>
-        // Настройка Fireworks.js
+        // Инициализация Fireworks.js
         const container = document.getElementById('fireworks-container');
-
         const fireworks = new Fireworks(container, {
             autoresize: true,
             opacity: 0.5,
-            acceleration: 1.05,
-            friction: 0.98,
-            gravity: 1.5,
-            particles: 100,
-            trace: 3,
+            particles: 150,
             explosion: 5,
-            brightness: {
-                min: 50,
-                max: 80
-            },
-            boundary: {
-                top: 50,
-                bottom: container.clientHeight,
-                left: 50,
-                right: container.clientWidth
-            },
-            sound: {
-                enable: false
-            }
+            brightness: { min: 50, max: 80 },
+            boundary: { top: 50, bottom: container.clientHeight, left: 50, right: container.clientWidth },
         });
 
-        // Запускаем фейерверки
         fireworks.start();
+        setTimeout(() => fireworks.stop(), 3000);
 
-        // Останавливаем фейерверки через 3 секунды
-        setTimeout(() => {
-            fireworks.stop();
-        }, 3000);
-
-        // Получаем данные из URL
+        // Получаем параметры из URL
         const params = new URLSearchParams(window.location.search);
-        const archetype = params.get("archetype");
+        const archetype = params.get("archetype") || "Неизвестный";
         const additional = params.get("additional") ? params.get("additional").split(',') : [];
 
-        // Основной архетип
         document.getElementById("main-archetype").innerText = `Ваш основной архетип: ${archetype}`;
 
-        // Дополнительный архетип (только один)
         if (additional.length > 0) {
-            const additionalArchetype = additional[0]; // Берём только первый
+            const additionalArchetype = additional[0];
             const additionalElement = document.getElementById("additional-archetypes");
             additionalElement.innerText = `Ваш дополнительный архетип: ${additionalArchetype}`;
             additionalElement.style.display = "block";
