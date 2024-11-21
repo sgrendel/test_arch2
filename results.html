@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат теста на основной архетип</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-     <style>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles"></script>
+    <style>
         body {
             font-family: 'Raleway', sans-serif;
             margin: 0;
@@ -41,7 +42,7 @@
             margin: 0 auto;
             margin-top: 20px;
             width: 90%;
-            max-width: 580px; /* Ограничиваем ширину текста */
+            max-width: 750px; /* Ограничиваем ширину текста */
         }
 
         .description a {
@@ -69,10 +70,21 @@
                 line-height: 1.6; /* Уменьшаем межстрочный интервал */
             }
         }
+
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Анимация не мешает взаимодействию с содержимым */
+        }
     </style>
 </head>
 <body>
-    <div class="main-archetype" id="main-archetype"></div>
+    <div id="tsparticles"></div>
+    <div class="main-archetype" id="main-archetype">Ваш основной архетип: ХХХХ</div>
     <div class="additional-archetypes" id="additional-archetypes" style="display: none;"></div>
     <div class="description">
         <p>Поздравляю! 🥳</p>
@@ -80,54 +92,48 @@
         <p>Чтобы узнать ключевые моменты твоего архетипа и раскрыть свой уникальный стиль, вернись к расшифровке в <a href="https://drive.google.com/file/d/1NGVuEQtf82hCk4XoFUOXL_zBuMqYcFdB/view?usp=drive_link" target="_blank">гайде</a>.</p>
         <p>Ваш новый стиль ждет вас!</p>
     </div>
-   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3"></script>
 
     <script>
-        // Получаем данные из URL
         const params = new URLSearchParams(window.location.search);
         const archetype = params.get("archetype");
         const additional = params.get("additional") ? params.get("additional").split(',') : [];
 
-        // Основной архетип
         document.getElementById("main-archetype").innerText = `Ваш основной архетип: ${archetype}`;
 
-        // Дополнительный архетип (только один, если есть)
         if (additional.length > 0) {
-            const additionalArchetype = additional[0]; // Берём только первый
+            const additionalArchetype = additional[0];
             const additionalElement = document.getElementById("additional-archetypes");
             additionalElement.innerText = `Ваш дополнительный архетип: ${additionalArchetype}`;
             additionalElement.style.display = "block";
         }
 
-        // Функция для запуска фейерверков
-        const runFireworks = () => {
-            const end = Date.now() + 2 * 1000; // Длительность анимации: 2 секунды
+        tsParticles.load("tsparticles", {
+            particles: {
+                number: { value: 0 },
+                size: { value: 4, random: true },
+                color: { value: ["#ff595e", "#ffca3a", "#8ac926", "#1982c4", "#6a4c93"] },
+                shape: { type: "circle" },
+                move: {
+                    enable: true,
+                    speed: 6,
+                    direction: "none",
+                    random: false,
+                    straight: false,
+                    outModes: "destroy",
+                },
+            },
+            emitters: {
+                direction: "top",
+                rate: { quantity: 5, delay: 0.2 },
+                size: { width: 100, height: 0 },
+                position: { x: 50, y: 100 },
+            },
+        });
 
-            const colors = ['#ff9f1c', '#2ec4b6', '#e71d36', '#ff7f50'];
-
-            const frame = () => {
-                canvasConfetti({
-                    particleCount: 100,
-                    startVelocity: 30,
-                    spread: 360,
-                    ticks: 60,
-                    colors: colors,
-                    origin: {
-                        x: Math.random(),
-                        y: Math.random() - 0.2 // Немного выше
-                    }
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
-            };
-
-            frame();
-        };
-
-        // Запускаем фейерверки при загрузке страницы
-        window.addEventListener('load', runFireworks);
+        setTimeout(() => {
+            const particles = tsParticles.domItem(0);
+            particles.stop();
+        }, 5000);
     </script>
 </body>
 </html>
