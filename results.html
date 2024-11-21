@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат теста на основной архетип</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2.9.0/dist/index.umd.min.js"></script>
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -27,23 +27,23 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            pointer-events: none; /* Чтобы не мешать взаимодействию с элементами */
+            pointer-events: none;
         }
 
         .main-archetype {
-            font-size: 2.5rem; /* Крупный шрифт для основного архетипа */
+            font-size: 2.5rem;
             font-weight: bold;
-            margin-top: 25vh; /* Увеличенный отступ сверху */
+            margin-top: 25vh;
             margin-bottom: 20px;
-            color: #2F4F4F; /* Графитовый цвет */
+            color: #2F4F4F;
         }
 
         .additional-archetypes {
-            font-size: 1.8rem; /* Чуть меньше основного архетипа */
+            font-size: 1.8rem;
             font-weight: bold;
             margin-top: 10px;
             margin-bottom: 30px;
-            color: #2F4F4F; /* Графитовый цвет */
+            color: #2F4F4F;
         }
 
         .description {
@@ -52,7 +52,7 @@
             margin: 0 auto;
             margin-top: 20px;
             width: 90%;
-            max-width: 750px; /* Ограничение ширины абзаца */
+            max-width: 650px;
         }
 
         .description a {
@@ -98,22 +98,40 @@
     </div>
 
     <script>
-        // Инициализация Canvas-анимации фейерверков
-        particlesJS("fireworks-container", {
-            particles: {
-                number: { value: 50 },
-                color: { value: ["#FF0000", "#00FF00", "#0000FF"] },
-                shape: { type: "circle" },
-                opacity: { value: 0.8 },
-                size: { value: 4 },
-                move: { enable: true, speed: 6 },
+        // Настройка Fireworks.js
+        const container = document.getElementById('fireworks-container');
+
+        const fireworks = new Fireworks(container, {
+            autoresize: true,
+            opacity: 0.5,
+            acceleration: 1.05,
+            friction: 0.98,
+            gravity: 1.5,
+            particles: 100,
+            trace: 3,
+            explosion: 5,
+            brightness: {
+                min: 50,
+                max: 80
             },
-            interactivity: {
-                detect_on: "canvas",
-                events: { onclick: { enable: false }, onhover: { enable: false } },
+            boundary: {
+                top: 50,
+                bottom: container.clientHeight,
+                left: 50,
+                right: container.clientWidth
             },
-            retina_detect: true,
+            sound: {
+                enable: false
+            }
         });
+
+        // Запускаем фейерверки
+        fireworks.start();
+
+        // Останавливаем фейерверки через 3 секунды
+        setTimeout(() => {
+            fireworks.stop();
+        }, 3000);
 
         // Получаем данные из URL
         const params = new URLSearchParams(window.location.search);
