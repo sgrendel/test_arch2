@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Результат теста на основной архетип</title>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1"></script>
     <style>
         body {
             font-family: 'Raleway', sans-serif;
@@ -41,7 +42,7 @@
             margin: 0 auto;
             margin-top: 20px;
             width: 90%;
-            max-width: 600px; /* Ограничиваем ширину текста */
+            max-width: 580px; /* Ограничиваем ширину текста */
         }
 
         .description a {
@@ -97,6 +98,36 @@
             additionalElement.innerText = `Ваш дополнительный архетип: ${additionalArchetype}`;
             additionalElement.style.display = "block";
         }
+
+        // Функция для запуска фейерверков
+        const runFireworks = () => {
+            const end = Date.now() + 2 * 1000; // Длительность анимации: 2 секунды
+
+            const colors = ['#ff9f1c', '#2ec4b6', '#e71d36', '#ff7f50'];
+
+            const frame = () => {
+                canvasConfetti({
+                    particleCount: 100,
+                    startVelocity: 30,
+                    spread: 360,
+                    ticks: 60,
+                    colors: colors,
+                    origin: {
+                        x: Math.random(),
+                        y: Math.random() - 0.2 // Немного выше
+                    }
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            };
+
+            frame();
+        };
+
+        // Запускаем фейерверки при загрузке страницы
+        window.addEventListener('load', runFireworks);
     </script>
 </body>
 </html>
